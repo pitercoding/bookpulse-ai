@@ -25,6 +25,7 @@ const Navbar = () => {
             alt="Bookpulse"
             width={42}
             height={26}
+            style={{ height: "auto" }}
           />
           <span className="logo-text">BookPulse</span>
         </Link>
