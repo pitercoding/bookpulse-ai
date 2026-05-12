@@ -145,12 +145,12 @@ type BookUploadValues = z.infer<typeof bookUploadSchema>;
 function LoadingOverlay() {
   return (
     <div className="loading-wrapper" aria-live="polite" aria-busy="true">
-      <div className="loading-shadow-wrapper bg-[var(--bg-primary)] shadow-soft-md">
+      <div className="loading-shadow-wrapper bg-(--bg-primary) shadow-soft-md">
         <div className="loading-shadow">
-          <Loader2 className="loading-animation size-12 text-[var(--accent-warm)]" />
+          <Loader2 className="loading-animation size-12 text-(--accent-warm)" />
           <div className="space-y-2 text-center">
             <h2 className="loading-title font-serif">Preparing your book</h2>
-            <p className="text-sm text-[var(--text-secondary)]">
+            <p className="text-sm text-(--text-secondary)">
               We&apos;re gathering the pages, metadata, and voice settings for
               synthesis.
             </p>

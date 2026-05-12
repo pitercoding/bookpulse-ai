@@ -254,3 +254,34 @@ export const getLibraryBooks = async () => {
     });
   }
 };
+
+export const getBookBySlug = async (slug: string) => {
+  try {
+    await connectToDatabase();
+
+    const book = await Book.findOne({ slug })
+      .select("title author coverURL persona slug")
+      .lean();
+
+    if (!book) {
+      return toPlainResult({
+        success: false,
+        data: null,
+        error: "Book not found.",
+      });
+    }
+
+    return toPlainResult({
+      success: true,
+      data: serializeData(book),
+    });
+  } catch (e) {
+    console.error("Error fetching book by slug", e);
+
+    return toPlainResult({
+      success: false,
+      data: null,
+      error: getErrorMessage(e, "Failed to fetch book."),
+    });
+  }
+};
