@@ -403,19 +403,16 @@
     box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.1);
   }
   .vapi-mic-wrapper {
-    @apply absolute -bottom-1 -right-1 sm:-bottom-2 sm:-right-2;
+    @apply absolute -bottom-1 -right-1 sm:-bottom-2 sm:-right-2 flex items-center justify-center;
   }
   .vapi-pulse-ring {
-    @apply absolute inset-0 w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] bg-white rounded-full opacity-50 animate-ping;
+    @apply absolute z-0 w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] rounded-full opacity-60 animate-ping bg-[#663820]/25;
   }
   .vapi-mic-btn {
-    @apply relative w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] cursor-pointer rounded-full flex items-center justify-center transition-all duration-300 border-0 bg-white;
+    @apply relative z-10 w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] cursor-pointer rounded-full flex items-center justify-center transition-all duration-300 border-0;
 
     &:hover {
       transform: scale(1.05);
-    }
-    &:hover svg {
-      @apply text-[#aaa];
     }
     &:active {
       transform: scale(0.95);
@@ -425,10 +422,18 @@
     }
   }
   .vapi-mic-btn-active {
-    @apply bg-white;
+    @apply bg-[#663820] text-white shadow-[0_10px_25px_rgba(102,56,32,0.28)];
+
+    &:hover {
+      @apply bg-[#7a4528];
+    }
   }
   .vapi-mic-btn-inactive {
-    @apply bg-white;
+    @apply bg-white text-[#212a3b] shadow-[0_8px_20px_rgba(33,42,59,0.12)];
+
+    &:hover {
+      @apply bg-[#fff6e5];
+    }
   }
   .vapi-badge-ai {
     @apply inline-block bg-white px-3 py-2 rounded-[4px];

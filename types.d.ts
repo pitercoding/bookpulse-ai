@@ -49,6 +49,17 @@ export interface IVoiceSession extends Document {
     updatedAt: Date;
 }
 
+export interface StartSessionResult {
+    success: boolean;
+    sessionId?: string;
+    error?: string;
+}
+
+export interface EndSessionResult {
+    success: boolean;
+    error?: string;
+}
+
 // ============================================
 // FORM & INPUT TYPES
 // ============================================
@@ -82,6 +93,7 @@ export interface BookCardProps {
 }
 
 export interface Messages {
+    id?: string;
     role: string;
     content: string;
 }

@@ -1,5 +1,6 @@
 "use server";
 
+import { sampleBooks } from "@/lib/constants";
 import { auth } from "@clerk/nextjs/server";
 import { del } from "@vercel/blob";
 import { connectToDatabase } from "@/database/mongoose";
@@ -264,6 +265,18 @@ export const getBookBySlug = async (slug: string) => {
       .lean();
 
     if (!book) {
+      const sampleBook = sampleBooks.find((item) => item.slug === slug);
+
+      if (sampleBook) {
+        return toPlainResult({
+          success: true,
+          data: {
+            ...sampleBook,
+            persona: undefined,
+          },
+        });
+      }
+
       return toPlainResult({
         success: false,
         data: null,
