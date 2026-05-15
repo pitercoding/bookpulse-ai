@@ -31,6 +31,7 @@ import { upload } from "@vercel/blob/client";
 const MAX_FILE_SIZE = 50 * 1024 * 1024;
 const ACCEPTED_PDF_TYPES = ["application/pdf"];
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
+const LIBRARY_ROUTE = "/";
 
 const hasAcceptedMimeType = (
   file: File,
@@ -248,6 +249,9 @@ function FileDropzone({
 const UploadForm = () => {
   const { userId } = useAuth();
   const router = useRouter();
+  const navigateToLibrary = () => {
+    router.replace(LIBRARY_ROUTE);
+  };
 
   const form = useForm<BookUploadValues>({
     resolver: zodResolver(bookUploadSchema),
@@ -277,8 +281,7 @@ const UploadForm = () => {
       if (existingCheck.exists && existingBook) {
         toast.info("Book with same title already exists.");
         form.reset();
-        router.push("/");
-        router.refresh();
+        navigateToLibrary();
         return;
       }
 
@@ -330,6 +333,28 @@ const UploadForm = () => {
         coverUrl = uploadedCoverBlob.url;
         uploadedCoverUrl = uploadedCoverBlob.url;
         coverBlobKey = uploadedCoverBlob.pathname;
+      } else if (parsedPdf.coverImage) {
+        const generatedCoverFile = new File(
+          [parsedPdf.coverImage],
+          `${pathnameBase}-cover.png`,
+          {
+            type: parsedPdf.coverImage.type || "image/png",
+          },
+        );
+
+        const uploadedCoverBlob = await upload(
+          generatedCoverFile.name,
+          generatedCoverFile,
+          {
+            access: "public",
+            handleUploadUrl: "/api/upload",
+            contentType: generatedCoverFile.type,
+          },
+        );
+
+        coverUrl = uploadedCoverBlob.url;
+        uploadedCoverUrl = uploadedCoverBlob.url;
+        coverBlobKey = uploadedCoverBlob.pathname;
       }
 
       const result = await processUploadedBook({
@@ -350,15 +375,13 @@ const UploadForm = () => {
       if (result.success && resultData) {
         toast.success("Book uploaded successfully!");
         form.reset();
-        router.push("/");
-        router.refresh();
+        navigateToLibrary();
         return;
       }
 
       if (alreadyExists && resultData) {
         toast.info("Book with same title already exists.");
-        router.push("/");
-        router.refresh();
+        navigateToLibrary();
         return;
       }
 
