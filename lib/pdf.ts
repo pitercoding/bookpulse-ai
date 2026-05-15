@@ -31,6 +31,7 @@ const renderPdfCoverImage = async (
     canvas.height = Math.ceil(viewport.height);
 
     await firstPage.render({
+      canvas,
       canvasContext: context,
       viewport,
     }).promise;
